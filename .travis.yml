@@ -18,6 +18,7 @@ after_success:
 
 #Login to docker cli to push above images to docker hub
 -echo "$DOCKER_PWD" | docker login -u "$DOCKER_ID" --password-stdin
+
 #PUSH all built images
 -docker push stephengrider/multi-client
 -docker push stephengrider/multi-nginx
