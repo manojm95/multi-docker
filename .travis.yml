@@ -11,16 +11,16 @@ script:
   - docker run manojm95/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t stephengrider/multi-client ./client
-  - docker build -t stephengrider/multi-nginx ./nginx
-  - docker build -t stephengrider/multi-server ./server
-  - docker build -t stephengrider/multi-worker ./worker
+  - docker build -t manojm95/multi-client ./client
+  - docker build -t manojm95/multi-nginx ./nginx
+  - docker build -t manojm95/multi-server ./server
+  - docker build -t manojm95/multi-worker ./worker
 
 #Login to docker cli to push above images to docker hub
   - echo "$DOCKER_PWD" | docker login -u "$DOCKER_ID" --password-stdin
 
 #PUSH all built images
-  - docker push stephengrider/multi-client
-  - docker push stephengrider/multi-nginx
-  - docker push stephengrider/multi-server
-  - docker push stephengrider/multi-worker
+  - docker push manojm95/multi-client
+  - docker push manojm95/multi-nginx
+  - docker push manojm95/multi-server
+  - docker push manojm95/multi-worker
