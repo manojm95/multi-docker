@@ -1,0 +1,25 @@
+sudo: required
+services: 
+  -docker
+
+# using dev docker file for testing only in pre install step
+before_install:
+  - docker build -t manojm95/react-test -f ./client/Dockerfile.dev ./client
+
+# -- -- coverage is to break the wait after npm run test
+script:
+  - docker run manojm95/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t stephengrider/multi-client ./client
+  - docker build -t stephengrider/multi-nginx ./nginx
+  - docker build -t stephengrider/multi-server ./server
+  - docker build -t stephengrider/multi-worker ./worker
+
+#Login to docker cli to push above images to docker hub
+-echo "$DOCKER_PWD" | docker login -u "$DOCKER_ID" --password-stdin
+#PUSH all built images
+-docker push stephengrider/multi-client
+-docker push stephengrider/multi-nginx
+-docker push stephengrider/multi-server
+-docker push stephengrider/multi-worker
